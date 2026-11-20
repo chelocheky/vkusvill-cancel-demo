@@ -1,0 +1,372 @@
+<!doctype html>
+<!-- Ориентир — vkusvill.ru: светлые поверхности, зелёный акцент и округлые кнопки. Палитра и компоновка адаптированы для учебного сценария. -->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Мои заказы · Учебный прототип</title>
+<style>
+:root {
+  --green: #00763e;
+  --accent: #009e4f;
+  --ink: #182820;
+  --muted: #4d6055;
+  --line: #dce6df;
+  --soft: #e9f7ef;
+  color: var(--ink);
+  background: #f5f8f5;
+  font: 16px/1.5 system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; }
+header { background: white; border-bottom: 1px solid var(--line); }
+.bar { max-width: 960px; margin: auto; padding: 16px 20px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+.brand { color: var(--green); font-weight: 780; font-size: 1.25rem; }
+.muted { color: var(--muted); }
+main { width: min(100% - 32px, 610px); margin: clamp(24px, 7vw, 80px) auto; }
+section { background: white; border: 1px solid var(--line); border-radius: 28px; padding: clamp(20px, 5vw, 40px); }
+h1 { margin: 0 0 12px; font-size: clamp(1.7rem, 5vw, 2.25rem); line-height: 1.12; letter-spacing: -.035em; }
+p { margin: 0 0 16px; }
+.step { font-size: .875rem; color: var(--muted); margin-bottom: 12px; }
+.chip { display: inline-block; margin: 4px 0 0; border-radius: 999px; padding: 5px 12px; background: var(--soft); color: var(--green); font-weight: 650; }
+ul { list-style: none; padding: 0; margin: 22px 0 0; }
+li, .total { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-top: 1px solid var(--line); padding: 10px 0; }
+li span:last-child, .total strong { white-space: nowrap; }
+.total { font-weight: 650; }
+.actions { display: grid; gap: 10px; margin-top: 20px; }
+button, .button { font: inherit; font-weight: 700; cursor: pointer; text-decoration: none; display: block; text-align: center; color: white; background: var(--green); border: 1px solid transparent; border-radius: 16px; min-height: 48px; padding: 11px 16px; }
+button:hover, .button:hover { filter: brightness(.94); }
+.secondary { background: var(--soft); color: var(--green); }
+.back { background: white; color: var(--green); border-color: var(--line); }
+:focus-visible { outline: 3px solid #155ce0; outline-offset: 3px; }
+fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
+legend { margin-bottom: 10px; padding: 0; }
+.option { display: flex; gap: 12px; align-items: center; min-height: 48px; border: 1px solid var(--line); border-radius: 14px; margin-bottom: 8px; padding: 8px 12px; cursor: pointer; }
+.option:has(input:checked) { background: var(--soft); border-color: var(--accent); }
+input { accent-color: var(--green); width: 18px; height: 18px; }
+textarea { display: block; width: 100%; min-height: 90px; margin-top: 6px; padding: 10px; font: inherit; border: 1px solid #64766a; border-radius: 12px; resize: vertical; }
+.comment { display: block; margin-top: 14px; }
+summary { cursor: pointer; padding: 12px 4px; color: var(--muted); }
+details button { margin: 0 4px; }
+</style>
+</head>
+<body>
+<header><div class="bar"><span class="brand">ВкусВилл</span><span class="muted">Учебный прототип</span></div></header>
+<main>
+  <section id="order" aria-labelledby="order-title">
+    <h1 id="order-title" tabindex="-1">Мои заказы</h1>
+    <p class="muted">Заказ № 10482</p>
+    <p class="chip" id="status">Собирается</p>
+    <ul aria-label="Состав заказа">
+      <li><span>Молоко 3,2%, 1 л</span><span>119 ₽</span></li>
+      <li><span>Хлеб пшеничный, 400 г</span><span>89 ₽</span></li>
+      <li><span>Яблоки, 1 кг</span><span>168 ₽</span></li>
+    </ul>
+    <div class="total"><span>Оплачено</span><strong>376 ₽</strong></div>
+    <p id="availability">Пока заказ собирается, его можно отменить.</p>
+    <button type="button" class="secondary" id="start">Отменить заказ</button>
+  </section>
+  <section id="reason" aria-labelledby="reason-title" hidden>
+    <p class="step">Шаг 1 из 2</p>
+    <h1 id="reason-title" tabindex="-1">Почему отменяете заказ?</h1>
+    <form id="reason-form">
+      <fieldset>
+        <legend>Выберите одну причину</legend>
+        <label class="option"><input type="radio" name="reason" value="Передумал" required>Передумал</label>
+        <label class="option"><input type="radio" name="reason" value="Изменились планы">Изменились планы</label>
+        <label class="option"><input type="radio" name="reason" value="Долго собирают">Долго собирают</label>
+        <label class="option"><input type="radio" name="reason" value="Другое" id="other">Другое</label>
+      </fieldset>
+      <label class="comment" id="comment-label" hidden>Комментарий (необязательно)
+        <textarea name="comment" maxlength="300" disabled></textarea>
+      </label>
+      <div class="actions">
+        <button type="submit">Продолжить</button>
+        <button type="button" class="back" data-go="order">Назад к заказу</button>
+      </div>
+    </form>
+  </section>
+  <section id="confirm" aria-labelledby="confirm-title" hidden>
+    <p class="step">Шаг 2 из 2</p>
+    <h1 id="confirm-title" tabindex="-1">Отменить заказ?</h1>
+    <p>В заказе № 10482 три товара. После отмены вернутся 376 ₽ на карту оплаты.</p>
+    <p id="selected-reason"></p>
+    <div class="actions">
+      <button type="button" id="cancel-order">Да, отменить</button>
+      <button type="button" class="secondary" id="keep-order">Оставить заказ</button>
+      <button type="button" class="back" data-go="reason">Назад к причине</button>
+    </div>
+  </section>
+  <section id="success" aria-labelledby="success-title" hidden>
+    <h1 id="success-title" tabindex="-1">Заказ отменён</h1>
+    <p class="muted">Заказ № 10482</p>
+    <div class="total"><span>К возврату на карту оплаты</span><strong>376 ₽</strong></div>
+    <div class="actions"><button type="button" data-go="order">Вернуться к заказам</button></div>
+  </section>
+  <section id="error" aria-labelledby="error-title" hidden>
+    <h1 id="error-title" tabindex="-1">Отмена недоступна</h1>
+    <p>Заказ № 10482 уже в доставке. По вопросам отмены обратитесь в поддержку.</p>
+    <div class="actions">
+      <a class="button" href="https://vkusvill.ru/support/">Связаться с поддержкой</a>
+      <button type="button" class="back" data-go="order">Вернуться к заказам</button>
+    </div>
+  </section>
+  <details id="demo">
+    <summary>Настройки прототипа</summary>
+    <button type="button" class="back" id="toggle-delivery">Перевести заказ в доставку</button>
+  </details>
+</main>
+<script>
+const orderStatus = { assembling: 'Собирается', delivery: 'В доставке', cancelled: 'Заказ отменён' };
+let status = 'assembling';
+const screens = document.querySelectorAll('main section');
+const start = document.querySelector('#start');
+const form = document.querySelector('#reason-form');
+const other = document.querySelector('#other');
+const commentLabel = document.querySelector('#comment-label');
+const demo = document.querySelector('#demo');
+const deliveryToggle = document.querySelector('#toggle-delivery');
+
+function show(screen) {
+  for (const section of screens) section.hidden = section.id !== screen;
+  demo.open = false;
+  demo.hidden = status === 'cancelled' || (screen !== 'order' && screen !== 'confirm');
+  document.querySelector('#' + screen + '-title').focus();
+}
+
+function updateOrder() {
+  document.querySelector('#status').textContent = orderStatus[status];
+  const availability = document.querySelector('#availability');
+  availability.hidden = status === 'cancelled';
+  availability.textContent = status === 'delivery'
+    ? 'Заказ уже в доставке. Самостоятельная отмена недоступна.'
+    : 'Пока заказ собирается, его можно отменить.';
+  start.hidden = status === 'cancelled';
+  start.textContent = status === 'delivery' ? 'Что делать, если нужно отменить' : 'Отменить заказ';
+  deliveryToggle.textContent = status === 'delivery' ? 'Вернуть заказ в сборку' : 'Перевести заказ в доставку';
+}
+
+function updateComment() {
+  commentLabel.hidden = !other.checked;
+  form.elements.comment.disabled = !other.checked;
+}
+
+start.addEventListener('click', () => show(status === 'assembling' ? 'reason' : 'error'));
+form.addEventListener('change', updateComment);
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  document.querySelector('#selected-reason').textContent = 'Причина: ' + new FormData(form).get('reason');
+  show(status === 'assembling' ? 'confirm' : 'error');
+});
+document.querySelector('#cancel-order').addEventListener('click', () => {
+  if (status === 'delivery') {
+    show('error');
+    return;
+  }
+  if (status !== 'assembling') return;
+  status = 'cancelled';
+  updateOrder();
+  show('success');
+});
+document.querySelector('#keep-order').addEventListener('click', () => {
+  form.reset();
+  updateComment();
+  show('order');
+});
+for (const button of document.querySelectorAll('[data-go]')) {
+  button.addEventListener('click', () => show(button.dataset.go));
+}
+deliveryToggle.addEventListener('click', () => {
+  status = status === 'delivery' ? 'assembling' : 'delivery';
+  updateOrder();
+});
+</script>
+</body>
+</html>
+<!doctype html>
+<!-- Ориентир — vkusvill.ru: светлые поверхности, зелёный акцент и округлые кнопки. Палитра и компоновка адаптированы для учебного сценария. -->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Мои заказы · Учебный прототип</title>
+<style>
+:root {
+  --green: #00763e;
+  --accent: #009e4f;
+  --ink: #182820;
+  --muted: #4d6055;
+  --line: #dce6df;
+  --soft: #e9f7ef;
+  color: var(--ink);
+  background: #f5f8f5;
+  font: 16px/1.5 system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; }
+header { background: white; border-bottom: 1px solid var(--line); }
+.bar { max-width: 960px; margin: auto; padding: 16px 20px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+.brand { color: var(--green); font-weight: 780; font-size: 1.25rem; }
+.muted { color: var(--muted); }
+main { width: min(100% - 32px, 610px); margin: clamp(24px, 7vw, 80px) auto; }
+section { background: white; border: 1px solid var(--line); border-radius: 28px; padding: clamp(20px, 5vw, 40px); }
+h1 { margin: 0 0 12px; font-size: clamp(1.7rem, 5vw, 2.25rem); line-height: 1.12; letter-spacing: -.035em; }
+p { margin: 0 0 16px; }
+.step { font-size: .875rem; color: var(--muted); margin-bottom: 12px; }
+.chip { display: inline-block; margin: 4px 0 0; border-radius: 999px; padding: 5px 12px; background: var(--soft); color: var(--green); font-weight: 650; }
+ul { list-style: none; padding: 0; margin: 22px 0 0; }
+li, .total { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-top: 1px solid var(--line); padding: 10px 0; }
+li span:last-child, .total strong { white-space: nowrap; }
+.total { font-weight: 650; }
+.actions { display: grid; gap: 10px; margin-top: 20px; }
+button, .button { font: inherit; font-weight: 700; cursor: pointer; text-decoration: none; display: block; text-align: center; color: white; background: var(--green); border: 1px solid transparent; border-radius: 16px; min-height: 48px; padding: 11px 16px; }
+button:hover, .button:hover { filter: brightness(.94); }
+.secondary { background: var(--soft); color: var(--green); }
+.back { background: white; color: var(--green); border-color: var(--line); }
+:focus-visible { outline: 3px solid #155ce0; outline-offset: 3px; }
+fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
+legend { margin-bottom: 10px; padding: 0; }
+.option { display: flex; gap: 12px; align-items: center; min-height: 48px; border: 1px solid var(--line); border-radius: 14px; margin-bottom: 8px; padding: 8px 12px; cursor: pointer; }
+.option:has(input:checked) { background: var(--soft); border-color: var(--accent); }
+input { accent-color: var(--green); width: 18px; height: 18px; }
+textarea { display: block; width: 100%; min-height: 90px; margin-top: 6px; padding: 10px; font: inherit; border: 1px solid #64766a; border-radius: 12px; resize: vertical; }
+.comment { display: block; margin-top: 14px; }
+summary { cursor: pointer; padding: 12px 4px; color: var(--muted); }
+details button { margin: 0 4px; }
+</style>
+</head>
+<body>
+<header><div class="bar"><span class="brand">ВкусВилл</span><span class="muted">Учебный прототип</span></div></header>
+<main>
+  <section id="order" aria-labelledby="order-title">
+    <h1 id="order-title" tabindex="-1">Мои заказы</h1>
+    <p class="muted">Заказ № 10482</p>
+    <p class="chip" id="status">Собирается</p>
+    <ul aria-label="Состав заказа">
+      <li><span>Молоко 3,2%, 1 л</span><span>119 ₽</span></li>
+      <li><span>Хлеб пшеничный, 400 г</span><span>89 ₽</span></li>
+      <li><span>Яблоки, 1 кг</span><span>168 ₽</span></li>
+    </ul>
+    <div class="total"><span>Оплачено</span><strong>376 ₽</strong></div>
+    <p id="availability">Пока заказ собирается, его можно отменить.</p>
+    <button type="button" class="secondary" id="start">Отменить заказ</button>
+  </section>
+  <section id="reason" aria-labelledby="reason-title" hidden>
+    <p class="step">Шаг 1 из 2</p>
+    <h1 id="reason-title" tabindex="-1">Почему отменяете заказ?</h1>
+    <form id="reason-form">
+      <fieldset>
+        <legend>Выберите одну причину</legend>
+        <label class="option"><input type="radio" name="reason" value="Передумал" required>Передумал</label>
+        <label class="option"><input type="radio" name="reason" value="Изменились планы">Изменились планы</label>
+        <label class="option"><input type="radio" name="reason" value="Долго собирают">Долго собирают</label>
+        <label class="option"><input type="radio" name="reason" value="Другое" id="other">Другое</label>
+      </fieldset>
+      <label class="comment" id="comment-label" hidden>Комментарий (необязательно)
+        <textarea name="comment" maxlength="300" disabled></textarea>
+      </label>
+      <div class="actions">
+        <button type="submit">Продолжить</button>
+        <button type="button" class="back" data-go="order">Назад к заказу</button>
+      </div>
+    </form>
+  </section>
+  <section id="confirm" aria-labelledby="confirm-title" hidden>
+    <p class="step">Шаг 2 из 2</p>
+    <h1 id="confirm-title" tabindex="-1">Отменить заказ?</h1>
+    <p>В заказе № 10482 три товара. После отмены вернутся 376 ₽ на карту оплаты.</p>
+    <p id="selected-reason"></p>
+    <div class="actions">
+      <button type="button" id="cancel-order">Да, отменить</button>
+      <button type="button" class="secondary" id="keep-order">Оставить заказ</button>
+      <button type="button" class="back" data-go="reason">Назад к причине</button>
+    </div>
+  </section>
+  <section id="success" aria-labelledby="success-title" hidden>
+    <h1 id="success-title" tabindex="-1">Заказ отменён</h1>
+    <p class="muted">Заказ № 10482</p>
+    <div class="total"><span>К возврату на карту оплаты</span><strong>376 ₽</strong></div>
+    <div class="actions"><button type="button" data-go="order">Вернуться к заказам</button></div>
+  </section>
+  <section id="error" aria-labelledby="error-title" hidden>
+    <h1 id="error-title" tabindex="-1">Отмена недоступна</h1>
+    <p>Заказ № 10482 уже в доставке. По вопросам отмены обратитесь в поддержку.</p>
+    <div class="actions">
+      <a class="button" href="https://vkusvill.ru/support/">Связаться с поддержкой</a>
+      <button type="button" class="back" data-go="order">Вернуться к заказам</button>
+    </div>
+  </section>
+  <details id="demo">
+    <summary>Настройки прототипа</summary>
+    <button type="button" class="back" id="toggle-delivery">Перевести заказ в доставку</button>
+  </details>
+</main>
+<script>
+const orderStatus = { assembling: 'Собирается', delivery: 'В доставке', cancelled: 'Заказ отменён' };
+let status = 'assembling';
+const screens = document.querySelectorAll('main section');
+const start = document.querySelector('#start');
+const form = document.querySelector('#reason-form');
+const other = document.querySelector('#other');
+const commentLabel = document.querySelector('#comment-label');
+const demo = document.querySelector('#demo');
+const deliveryToggle = document.querySelector('#toggle-delivery');
+
+function show(screen) {
+  for (const section of screens) section.hidden = section.id !== screen;
+  demo.open = false;
+  demo.hidden = status === 'cancelled' || (screen !== 'order' && screen !== 'confirm');
+  document.querySelector('#' + screen + '-title').focus();
+}
+
+function updateOrder() {
+  document.querySelector('#status').textContent = orderStatus[status];
+  const availability = document.querySelector('#availability');
+  availability.hidden = status === 'cancelled';
+  availability.textContent = status === 'delivery'
+    ? 'Заказ уже в доставке. Самостоятельная отмена недоступна.'
+    : 'Пока заказ собирается, его можно отменить.';
+  start.hidden = status === 'cancelled';
+  start.textContent = status === 'delivery' ? 'Что делать, если нужно отменить' : 'Отменить заказ';
+  deliveryToggle.textContent = status === 'delivery' ? 'Вернуть заказ в сборку' : 'Перевести заказ в доставку';
+}
+
+function updateComment() {
+  commentLabel.hidden = !other.checked;
+  form.elements.comment.disabled = !other.checked;
+}
+
+start.addEventListener('click', () => show(status === 'assembling' ? 'reason' : 'error'));
+form.addEventListener('change', updateComment);
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  document.querySelector('#selected-reason').textContent = 'Причина: ' + new FormData(form).get('reason');
+  show(status === 'assembling' ? 'confirm' : 'error');
+});
+document.querySelector('#cancel-order').addEventListener('click', () => {
+  if (status === 'delivery') {
+    show('error');
+    return;
+  }
+  if (status !== 'assembling') return;
+  status = 'cancelled';
+  updateOrder();
+  show('success');
+});
+document.querySelector('#keep-order').addEventListener('click', () => {
+  form.reset();
+  updateComment();
+  show('order');
+});
+for (const button of document.querySelectorAll('[data-go]')) {
+  button.addEventListener('click', () => show(button.dataset.go));
+}
+deliveryToggle.addEventListener('click', () => {
+  status = status === 'delivery' ? 'assembling' : 'delivery';
+  updateOrder();
+});
+</script>
+</body>
+</html>
